@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { NoPointsMessage } from '../const.js';
+import {NoPointsMessage} from '../const.js';
 
 function createTemplate({filterType}) {
   const noPointsTextValue = NoPointsMessage[filterType];
@@ -21,7 +21,7 @@ class NoPointsView extends AbstractView{
 
   get template() {
     return createTemplate({
-      filterType: this.#filterType
+      filterType: this.#filterType,
     });
   }
 }

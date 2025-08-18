@@ -1,10 +1,11 @@
 import {render, replace, remove} from '../framework/render.js';
+import ListFilterView from '../view/list-filter-view.js';
 import {filter} from '../utils/filter.js';
 import {FilterType, UpdateType} from '../const.js';
-import ListFilterView from '../view/list-filter-view.js';
 
 class FilterPresenter {
   #filterContainer = null;
+
   #filterModel = null;
   #pointsModel = null;
 
@@ -24,7 +25,7 @@ class FilterPresenter {
 
     return Object.values(FilterType).map((type) => ({
       type,
-      count: filter[type](points).length
+      count: filter[type](points).length,
     }));
   }
 
@@ -35,7 +36,7 @@ class FilterPresenter {
     this.#filterComponent = new ListFilterView ({
       filters,
       currentFilterType: this.#filterModel.filter,
-      onFilterTypeChange: this.#handleFilterTypeChange
+      onFilterTypeChange: this.#handleFilterTypeChange,
     });
 
     if (prevFilterComponent === null) {
