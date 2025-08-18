@@ -1,9 +1,9 @@
 import {render, replace, remove} from '../framework/render.js';
 import PointView from '../view/point-view.js';
 import PointEditView from '../view/point-edit-view.js';
-import { isEscapeKey } from '../utils/common.js';
+import {isEscapeKey} from '../utils/common.js';
+import {isDatesEqual} from '../utils/point.js';
 import {UserAction, UpdateType, Mode} from '../const.js';
-import { isDatesEqual } from '../utils/point.js';
 
 class PointPresenter {
   #pointsListContainer = null;
@@ -34,15 +34,15 @@ class PointPresenter {
     this.#pointComponent = new PointView({
       ...this.#properties,
       onEditClick: this.#handleEditClick,
-      onFavoriteClick: this.#handleFavoriteClick
+      onFavoriteClick: this.#handleFavoriteClick,
     });
 
     this.#pointEditComponent = new PointEditView({
       ...this.#properties,
       onFormSubmit: this.#handleFormSubmit,
       onQuitEditClick: this.#handleQuitEditClick,
+      onDeleteClick: this.#handleDeleteClick,
       onDataRequest: this.#handleDataRequest,
-      onDeleteClick: this.#handleDeleteClick
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
@@ -112,24 +112,20 @@ class PointPresenter {
 
   #replaceItemToForm() {
     replace(this.#pointEditComponent, this.#pointComponent);
-    document.addEventListener('keydown', this.#escKeyDownHandler);
+
     this.#handleModeChange();
     this.#mode = Mode.EDITING;
+
+    document.addEventListener('keydown', this.#escKeyDownHandler);
   }
 
   #replaceFormToItem() {
     replace(this.#pointComponent, this.#pointEditComponent);
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
-    this.#mode = Mode.DEFAULT;
-  }
 
-  #escKeyDownHandler = (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      this.#pointEditComponent.reset(this.#properties);
-      this.#replaceFormToItem();
-    }
-  };
+    this.#mode = Mode.DEFAULT;
+
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
+  }
 
   #handleEditClick = () => {
     this.#replaceItemToForm();
@@ -146,7 +142,7 @@ class PointPresenter {
       UpdateType.MINOR,
       {
         ...this.#properties.point,
-        isFavorite: !this.#properties.point.isFavorite
+        isFavorite: !this.#properties.point.isFavorite,
       },
     );
   };
@@ -169,6 +165,14 @@ class PointPresenter {
       UpdateType.MINOR,
       update.point,
     );
+  };
+
+  #escKeyDownHandler = (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      this.#pointEditComponent.reset(this.#properties);
+      this.#replaceFormToItem();
+    }
   };
 }
 

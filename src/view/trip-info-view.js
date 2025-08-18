@@ -1,16 +1,18 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { TripInfo } from '../const.js';
-import { humanizeTripInfoDates } from '../utils/point.js';
+import {humanizeTripInfoDates} from '../utils/point.js';
+import {TripInfo} from '../const.js';
 
 function createTitleTemplate(destinationNames) {
   if (destinationNames.length > TripInfo.MAX_NAMES_COUNT) {
     return `${destinationNames.at(TripInfo.START)}${TripInfo.SEPARATOR_TITLE_MAX}${destinationNames.at(TripInfo.END)}`;
   }
+
   return destinationNames.join(TripInfo.SEPARATOR_TITLE);
 }
 
 function createDatesTemplate (dates) {
   const formatedDates = humanizeTripInfoDates(dates);
+
   return formatedDates.join(TripInfo.SEPARATOR_DATE);
 }
 
@@ -36,22 +38,22 @@ function createTemplate({destinationNames, dates, totalCost}) {
 }
 
 class TripInfoView extends AbstractView{
-  #detinationNames = [];
+  #destinationNames = [];
   #dates = [];
   #totalCost = null;
 
   constructor({destinationNames, dates, totalCost}) {
     super();
-    this.#detinationNames = destinationNames;
+    this.#destinationNames = destinationNames;
     this.#dates = dates;
     this.#totalCost = totalCost;
   }
 
   get template() {
     return createTemplate({
-      destinationNames: this.#detinationNames,
+      destinationNames: this.#destinationNames,
       dates: this.#dates,
-      totalCost: this.#totalCost
+      totalCost: this.#totalCost,
     });
   }
 }

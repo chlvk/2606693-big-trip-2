@@ -1,9 +1,10 @@
 import {render, replace, remove, RenderPosition} from '../framework/render.js';
 import TripInfoView from '../view/trip-info-view.js';
-import { sortPointsByStartDate, sortPointsByEndDate } from '../utils/point.js';
+import {sortPointsByStartDate, sortPointsByEndDate} from '../utils/point.js';
 
 class TripInfoPresenter {
   #tripInfoContainer = null;
+
   #pointsModel = null;
 
   #tripInfoComponent = null;
@@ -50,7 +51,7 @@ class TripInfoPresenter {
     this.#tripInfoComponent = new TripInfoView ({
       destinationNames,
       dates,
-      totalCost
+      totalCost,
     });
 
     if (prevTripInfoComponent === null) {
