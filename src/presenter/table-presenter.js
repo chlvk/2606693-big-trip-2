@@ -90,6 +90,19 @@ class TablePresenter {
     });
   }
 
+  handleNewPointButtonClick() {
+    if(this.points.length === 0) {
+      remove(this.#noPointsComponent);
+      this.#noPointsComponent = null;
+    }
+  }
+
+  handleNewPointFormClose() {
+    if(this.points.length === 0) {
+      this.#renderNoPoints();
+    }
+  }
+
   #handleModeChange = () => {
     this.#newPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
