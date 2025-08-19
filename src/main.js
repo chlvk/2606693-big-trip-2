@@ -38,11 +38,13 @@ const newPointButtonComponent = new NewPointButtonView({
 });
 
 function handleNewPointFormClose() {
+  tablePresenter.handleNewPointFormClose();
   newPointButtonComponent.element.disabled = false;
 }
 
 function handleNewPointButtonClick() {
   tablePresenter.createPoint();
+  tablePresenter.handleNewPointButtonClick();
   newPointButtonComponent.element.disabled = true;
 }
 
